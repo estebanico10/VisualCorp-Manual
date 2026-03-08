@@ -276,7 +276,7 @@
                 </ul>
             </aside>
 
-            <main class="manual-content">
+            <main id="swup" class="transition-fade manual-content">
 
                 <!-- 1. ROL -->
                 <section class="manual-section reveal reveal--slide-up" id="rol">
@@ -915,6 +915,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@tsparticles/slim@3.3.0/tsparticles.slim.min.js"></script>
 
     <script src="js/manual.js"></script>
+
+  <!-- SPOTLIGHT SEARCH (Phase 4) -->
+  <div class="cmd-palette-backdrop" id="cmdBackdrop">
+    <div class="cmd-palette">
+      <div class="cmd-header">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="cmdInput" placeholder="Buscar en el manual... (ej: corte, cmky)" autocomplete="off">
+        <span class="cmd-esc">ESC</span>
+      </div>
+      <div class="cmd-results" id="cmdResults">
+        <div class="cmd-empty">Escribe para buscar...</div>
+      </div>
+      <div class="cmd-footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navegar</span>
+        <span><kbd>Enter</kbd> Abrir</span>
+      </div>
+    </div>
+  </div>
+
+<script src="https://unpkg.com/swup@4"></script>
 </body>
 
 </html>

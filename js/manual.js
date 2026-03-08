@@ -126,56 +126,111 @@ const searchIndex = [
 ];
 
 function initSearch() {
-    const input = document.querySelector('#manualSearch');
-    if (!input) return;
+    const backdrop = document.getElementById('cmdBackdrop');
+    const input = document.getElementById('cmdInput');
+    const resultsBox = document.getElementById('cmdResults');
+    const escBtn = document.querySelector('.cmd-esc');
+    if (!backdrop || !input || !resultsBox) return;
 
-    const wrap = input.closest('.search-wrap');
-    if (!wrap) return;
+    let selectedIndex = -1;
+    let currentHits = [];
 
-    let resultsBox = wrap.querySelector('.search-results');
-    if (!resultsBox) {
-        resultsBox = document.createElement('div');
-        resultsBox.className = 'search-results';
-        wrap.appendChild(resultsBox);
+    // Open/Close logic
+    function toggleCmd() {
+        const isActive = backdrop.classList.toggle('active');
+        if (isActive) {
+            input.focus();
+            input.value = '';
+            resultsBox.innerHTML = '<div class="cmd-empty">Escribe para buscar...</div>';
+            selectedIndex = -1;
+        } else {
+            input.blur();
+        }
     }
 
+    // Ctrl+K Listener globally
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+            e.preventDefault();
+            toggleCmd();
+        }
+        if (e.key === 'Escape' && backdrop.classList.contains('active')) {
+            toggleCmd();
+        }
+    });
+
+    // Close on backdrop click or ESC button
+    backdrop.addEventListener('click', (e) => {
+        if (e.target === backdrop) toggleCmd();
+    });
+    if (escBtn) escBtn.addEventListener('click', toggleCmd);
+
+    // Render results
+    function renderResults(hits) {
+        resultsBox.innerHTML = '';
+        currentHits = hits;
+        selectedIndex = -1;
+
+        if (hits.length === 0) {
+            resultsBox.innerHTML = `<div class="cmd-empty">No se encontró nada para "\${input.value}"</div>`;
+            return;
+        }
+
+        hits.forEach((item, idx) => {
+            const a = document.createElement('a');
+            a.href = item.url;
+            a.className = 'cmd-result-item';
+            a.innerHTML = `<div class="cmd-result-title">\${item.title}</div><div class="cmd-result-desc">\${item.desc}</div>`;
+
+            a.addEventListener('click', () => {
+                backdrop.classList.remove('active');
+            });
+            resultsBox.appendChild(a);
+        });
+    }
+
+    // Input changes (Search query)
     input.addEventListener('input', () => {
         const q = input.value.trim().toLowerCase();
         if (!q) {
-            resultsBox.classList.remove('active');
+            resultsBox.innerHTML = '<div class="cmd-empty">Escribe para buscar...</div>';
+            currentHits = [];
             return;
         }
 
         const hits = searchIndex.filter(item =>
             item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
         );
-
-        resultsBox.innerHTML = '';
-        if (hits.length === 0) {
-            resultsBox.innerHTML = '<div class="search-empty">No se encontraron resultados para "' + q + '"</div>';
-        } else {
-            hits.forEach(item => {
-                const a = document.createElement('a');
-                a.href = item.url;
-                a.className = 'search-result-item';
-                a.innerHTML = `<div class="search-result-title">\${item.title}</div><div class="search-result-desc">\${item.desc}</div>`;
-
-                a.addEventListener('click', () => {
-                    resultsBox.classList.remove('active');
-                    input.value = '';
-                });
-
-                resultsBox.appendChild(a);
-            });
-        }
-        resultsBox.classList.add('active');
+        renderResults(hits);
     });
 
-    document.addEventListener('click', (e) => {
-        if (!wrap.contains(e.target)) {
-            resultsBox.classList.remove('active');
+    // Keyboard navigation (Up/Down/Enter)
+    input.addEventListener('keydown', (e) => {
+        const items = resultsBox.querySelectorAll('.cmd-result-item');
+        if (items.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex + 1) % items.length;
+            updateSelection(items);
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+            updateSelection(items);
+        } else if (e.key === 'Enter' && selectedIndex >= 0) {
+            e.preventDefault();
+            items[selectedIndex].click();
         }
     });
+
+    function updateSelection(items) {
+        items.forEach(item => item.classList.remove('selected'));
+        if (selectedIndex >= 0) {
+            const selected = items[selectedIndex];
+            selected.classList.add('selected');
+            selected.scrollIntoView({ block: 'nearest' });
+        }
+    }
 }
 
 // ── Interactive Quizzes ──────────────────────────────────────
@@ -392,20 +447,143 @@ function initCopyButtons() {
     });
 }
 
+// ── Custom Magnetic Cursor (Phase 4) ─────────────────────────
+function initCursor() {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+
+    let dot = document.querySelector('.cursor-dot');
+    let ring = document.querySelector('.cursor-ring');
+
+    if (!dot) {
+        dot = document.createElement('div');
+        dot.className = 'cursor-dot';
+        document.body.appendChild(dot);
+
+        ring = document.createElement('div');
+        ring.className = 'cursor-ring';
+        document.body.appendChild(ring);
+    }
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.transform = `translate(calc(\${mouseX}px - 50%), calc(\${mouseY}px - 50%))`;
+    });
+
+    function renderRing() {
+        ringX += (mouseX - ringX) * 0.15;
+        ringY += (mouseY - ringY) * 0.15;
+        ring.style.transform = `translate(calc(\${ringX}px - 50%), calc(\${ringY}px - 50%))`;
+        requestAnimationFrame(renderRing);
+    }
+    requestAnimationFrame(renderRing);
+
+    window.bindCursorHover = function () {
+        const interactables = document.querySelectorAll('a, button, input, .dept-card, .skill-card, .cmd-result-item');
+        interactables.forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('hover'), { passive: true });
+            el.addEventListener('mouseleave', () => ring.classList.remove('hover'), { passive: true });
+        });
+    };
+    window.bindCursorHover();
+}
+
+// ── UI Sounds (Web Audio API - Phase 4) ──────────────────────
+let audioCtx;
+
+function initAudioContext() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
+}
+
+function playTick() {
+    initAudioContext();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.05);
+    gainNode.gain.setValueAtTime(0.015, audioCtx.currentTime); // very subtle volume
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.05);
+}
+
+function playPop() {
+    initAudioContext();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.1);
+    gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+}
+
+window.bindUISounds = function () {
+    const interactables = document.querySelectorAll('a, button, .dept-card, .skill-card, .cmd-result-item');
+    interactables.forEach(el => {
+        el.addEventListener('mouseenter', playTick, { passive: true });
+        el.addEventListener('click', playPop, { passive: true });
+    });
+
+    // Unlock Audio Context on first click anywhere
+    document.body.addEventListener('click', initAudioContext, { once: true });
+};
+
 // ── Init all ─────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+function initGlobalFeatures() {
     initTheme();
     initNav();
+    initSearch(); // Command Palette
+    initCursor(); // Setup dot, ring, and global mouse move listener
+    if (window.bindUISounds) window.bindUISounds();
+}
+
+function initPageContent() {
     initActiveLink();
     initBackTop();
     initToc();
-    initSearch();
     initProgressBar();
     initQuizzes();
 
-    // Phase 3 Features
+    // Phase 3 & 4 Features
     initParticles();
     initGSAP();
     initTilt();
     initCopyButtons();
+    if (window.bindCursorHover) window.bindCursorHover(); // Re-bind hover states to new DOM
+    if (window.bindUISounds) window.bindUISounds(); // Re-bind sound triggers to new DOM
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initGlobalFeatures();
+    initPageContent();
+
+    // Swup Page Transitions (Phase 4)
+    if (typeof window.Swup !== 'undefined') {
+        const swup = new window.Swup();
+
+        swup.hooks.on('page:view', () => {
+            // Scroll to top on page change
+            window.scrollTo(0, 0);
+            // Re-mount dynamic components inside #swup and update navigation styles
+            initPageContent();
+        });
+    }
 });
