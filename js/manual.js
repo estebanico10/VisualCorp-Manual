@@ -538,6 +538,41 @@ function playPop() {
     osc.stop(audioCtx.currentTime + 0.1);
 }
 
+// ── Modo Lectura ──────────────────────────────────────────────
+function initReadingMode() {
+    let btn = document.getElementById('readingModeBtn');
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.id = 'readingModeBtn';
+        btn.className = 'reading-toggle-btn';
+        btn.innerHTML = '<i class="fa-solid fa-book-open"></i> <span>Modo Lectura</span>';
+        document.body.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const isReading = document.body.classList.toggle('reading-mode');
+            btn.classList.toggle('active', isReading);
+            localStorage.setItem('visualcorp-reading-mode', isReading ? 'true' : 'false');
+
+            if (isReading) {
+                btn.innerHTML = '<i class="fa-solid fa-xmark"></i> <span>Salir</span>';
+                document.body.style.fontSize = '1.1rem';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-book-open"></i> <span>Modo Lectura</span>';
+                document.body.style.fontSize = '';
+            }
+            if (window.playPop) window.playPop(); // Opcional sonido
+        });
+
+        // Cargar preferencia guardada
+        if (localStorage.getItem('visualcorp-reading-mode') === 'true') {
+            document.body.classList.add('reading-mode');
+            btn.classList.add('active');
+            btn.innerHTML = '<i class="fa-solid fa-xmark"></i> <span>Salir</span>';
+            document.body.style.fontSize = '1.1rem';
+        }
+    }
+}
+
 window.bindUISounds = function () {
     const interactables = document.querySelectorAll('a, button, .dept-card, .skill-card, .cmd-result-item');
     interactables.forEach(el => {
@@ -555,6 +590,7 @@ function initGlobalFeatures() {
     initNav();
     initSearch(); // Command Palette
     initCursor(); // Setup dot, ring, and global mouse move listener
+    initReadingMode();
     if (window.bindUISounds) window.bindUISounds();
 }
 

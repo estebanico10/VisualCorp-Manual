@@ -1,10 +1,12 @@
 // js/nav.js
 (function () {
-    const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-    const depts = ['asesores.html', 'impresores.html', 'corte-laser.html', 'disenadores.html', 'taller.html'];
-    const isDeptActive = depts.includes(currentPath);
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  const depts = ['asesores.html', 'impresores.html', 'corte-laser.html', 'disenadores.html', 'taller.html'];
+  const isDeptActive = depts.includes(currentPath);
+  const apps = ['app-checklist.html', 'app-calculadora.html'];
+  const isAppActive = apps.includes(currentPath);
 
-    const navHTML = `
+  const navHTML = `
     <header class="site-header">
       <div class="container">
         <nav class="nav">
@@ -27,6 +29,13 @@
                 <li><a href="taller.html" class="nav__dropdown-link ${currentPath === 'taller.html' ? 'active' : ''}">🔧 Taller</a></li>
               </ul>
             </li>
+            <li class="nav__item-dropdown">
+              <span class="nav__link ${isAppActive ? 'active' : ''}">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em;margin-left:4px;"></i></span>
+              <ul class="nav__dropdown">
+                <li><a href="app-checklist.html" class="nav__dropdown-link ${currentPath === 'app-checklist.html' ? 'active' : ''}">✅ Checklist pre-impresión</a></li>
+                <li><a href="app-calculadora.html" class="nav__dropdown-link ${currentPath === 'app-calculadora.html' ? 'active' : ''}">🧮 Calculadora de área</a></li>
+              </ul>
+            </li>
             <li><a href="fundamentos.html" class="nav__link ${currentPath === 'fundamentos.html' ? 'active' : ''}">Fundamentos</a></li>
             <li><a href="marketing.html" class="nav__link ${currentPath === 'marketing.html' ? 'active' : ''}">Marketing</a></li>
             <li><a href="induccion.html" class="nav__link ${currentPath === 'induccion.html' ? 'active' : ''}">Inducción</a></li>
@@ -43,35 +52,36 @@
     </header>
     `;
 
-    // Inyectar de forma síncrona
-    document.write(navHTML);
+  // Inyectar de forma síncrona
+  document.write(navHTML);
 })();
 
 // Función global para actualizar el estado "active" (usada por Swup)
 window.updateNavActiveLink = function () {
-    const current = window.location.pathname.split('/').pop() || 'index.html';
-    const depts = ['asesores.html', 'impresores.html', 'corte-laser.html', 'disenadores.html', 'taller.html'];
+  const current = window.location.pathname.split('/').pop() || 'index.html';
+  const depts = ['asesores.html', 'impresores.html', 'corte-laser.html', 'disenadores.html', 'taller.html'];
+  const apps = ['app-checklist.html', 'app-calculadora.html'];
 
-    // Remover activaciones anteriores
-    document.querySelectorAll('.nav__link, .nav__dropdown-link').forEach(el => {
-        el.classList.remove('active');
-    });
+  // Remover activaciones anteriores
+  document.querySelectorAll('.nav__link, .nav__dropdown-link').forEach(el => {
+    el.classList.remove('active');
+  });
 
-    // Activar los nuevos correspondientes
-    document.querySelectorAll('.nav__link').forEach(a => {
-        if (a.getAttribute('href') === current) {
-            a.classList.add('active');
-        }
-    });
+  // Activar los nuevos correspondientes
+  document.querySelectorAll('.nav__link').forEach(a => {
+    if (a.getAttribute('href') === current) {
+      a.classList.add('active');
+    }
+  });
 
-    document.querySelectorAll('.nav__dropdown-link').forEach(a => {
-        if (a.getAttribute('href') === current) {
-            a.classList.add('active');
-            const parentDropdownItem = a.closest('.nav__item-dropdown');
-            if (parentDropdownItem) {
-                const parentLink = parentDropdownItem.querySelector('.nav__link');
-                if (parentLink) parentLink.classList.add('active');
-            }
-        }
-    });
+  document.querySelectorAll('.nav__dropdown-link').forEach(a => {
+    if (a.getAttribute('href') === current) {
+      a.classList.add('active');
+      const parentDropdownItem = a.closest('.nav__item-dropdown');
+      if (parentDropdownItem) {
+        const parentLink = parentDropdownItem.querySelector('.nav__link');
+        if (parentLink) parentLink.classList.add('active');
+      }
+    }
+  });
 };

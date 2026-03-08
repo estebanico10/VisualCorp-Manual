@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist Pre-Impresión — VisualCorp</title>
+    <meta name="description"
+        content="Mini aplicación de checklist para verificar archivos antes de mandar a producción.">
+    <link rel="icon"
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmSKnD00M-kkEpOeoGxEL9UP7_Zfgf8Ug33Q&s">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/manual.css">
+    <style>
+        .checklist-app {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--sp-8);
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--sp-4);
+            padding: var(--sp-4);
+            border-bottom: 1px solid var(--color-border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .check-item:last-child {
+            border-bottom: none;
+        }
+
+        .check-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--color-accent-hover);
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .check-item.completed .check-text {
+            color: var(--color-text-muted);
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .check-text {
+            font-size: var(--fs-base);
+            color: var(--color-heading);
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .check-desc {
+            font-size: var(--fs-xs);
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin: var(--sp-6) 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--color-accent-hover);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .reset-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 8px 16px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: var(--fs-sm);
+            margin-top: var(--sp-6);
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <script src="js/nav.js"></script>
+
+    <main id="swup" class="transition-fade">
+        <section class="hero" style="padding:8rem 0 3rem;">
+            <div class="container" style="position:relative;z-index:2;text-align:center;">
+                <span class="hero__eyebrow reveal reveal--fade" data-delay="50">✅ Mini App</span>
+                <h1 class="hero__title reveal reveal--slide-up" data-delay="100"
+                    style="font-size:clamp(1.8rem,4vw,3rem);">
+                    Checklist <span class="accent">Pre-Impresión</span>
+                </h1>
+                <p class="hero__sub reveal reveal--slide-up" data-delay="180"
+                    style="font-size:var(--fs-base);max-width:600px;margin:1rem auto;">
+                    Usa esta lista interactiva antes de enviar archivos a la Galaxy o al taller para asegurar calidad y
+                    evitar desperdicio de material.
+                </p>
+            </div>
+        </section>
+
+        <div class="container" style="margin-bottom: var(--sp-12);">
+            <div class="checklist-app reveal reveal--slide-up">
+
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2 style="font-size:var(--fs-xl); color:var(--color-heading);">Pasos de Verificación</h2>
+                    <span id="progressText" style="font-weight:700; color:var(--color-accent-hover);">0/6</span>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div id="checkListContainer">
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Modo de Color a CMYK</div>
+                            <div class="check-desc">Verificar que el documento no esté en RGB para impresión.</div>
+                        </div>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Resolución Correcta (DPI)</div>
+                            <div class="check-desc">Mínimo 150 DPI para banners, 300 DPI para papelería o stickers.
+                            </div>
+                        </div>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Sangría de 3 a 5 mm</div>
+                            <div class="check-desc">Fondo extendido fuera de las líneas de corte.</div>
+                        </div>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Letras Convrtidas a Curvas</div>
+                            <div class="check-desc">Ctrl+Shift+O en Illustrator para evitar pérdidas tipográficas.</div>
+                        </div>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Zona Segura de Texto</div>
+                            <div class="check-desc">Toda información importante lejos de los bordes (min 5-10mm).</div>
+                        </div>
+                    </label>
+                    <label class="check-item">
+                        <input type="checkbox" onchange="updateChecklist()">
+                        <div>
+                            <div class="check-text">Exportado en Formato Correcto</div>
+                            <div class="check-desc">Guardado en TIFF para impresión o vector en AI para corte.</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div style="text-align:center;">
+                    <button class="reset-btn" onclick="resetChecklist()"><i class="fa-solid fa-rotate-right"></i>
+                        Reiniciar Checklist</button>
+
+                    <div id="successMessage"
+                        style="display:none; margin-top:var(--sp-4); padding:var(--sp-4); background:rgba(34,197,94,0.1); border:1px solid #22c55e; border-radius:var(--radius-md); color:#4ade80; font-weight:700;">
+                        ¡Todo listo para producción! 🎉
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© 2026 <strong>VisualCorp</strong> · Manual Interno creado por <strong>Esteban Nicola</strong> · Milagro,
+                Ecuador</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="js/manual.js"></script>
+
+    <script>
+        function updateChecklist() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            const total = checkboxes.length;
+            let checked = 0;
+
+            checkboxes.forEach(cb => {
+                const parent = cb.closest('.check-item');
+                if (cb.checked) {
+                    checked++;
+                    parent.classList.add('completed');
+                } else {
+                    parent.classList.remove('completed');
+                }
+            });
+
+            const percent = (checked / total) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressText').innerText = checked + '/' + total;
+
+            const successMsg = document.getElementById('successMessage');
+            if (checked === total) {
+                successMsg.style.display = 'block';
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 }
+                    });
+                }
+            } else {
+                successMsg.style.display = 'none';
+            }
+        }
+
+        function resetChecklist() {
+            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = false;
+                cb.closest('.check-item').classList.remove('completed');
+            });
+            updateChecklist();
+        }
+    </script>
+
+    <script src="https://unpkg.com/swup@4"></script>
+</body>
+
+</html>
