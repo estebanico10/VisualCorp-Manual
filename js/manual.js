@@ -1,33 +1,33 @@
 'use strict';
 
 /* ============================================================
-   VisualCorp Manual Interno — JS
+   VisualCorp Manual Interno — JS Avanzado (Fase 3)
    ============================================================ */
 
-// ── Reveal on scroll ─────────────────────────────────────────
-function initReveal() {
-    const els = document.querySelectorAll('.reveal');
-    if (!els.length) return;
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (!e.isIntersecting) return;
-            const delay = parseInt(e.target.dataset.delay || 0);
-            setTimeout(() => e.target.classList.add('is-visible'), delay);
-            io.unobserve(e.target);
-        });
-    }, { threshold: 0.12 });
-    els.forEach(el => io.observe(el));
-}
-
-// ── Hamburger menu ───────────────────────────────────────────
+// ── Hamburger menu & Dynamic Navbar (Glassmorphism) ──────────
 function initNav() {
+    const header = document.querySelector('.site-header');
     const burger = document.querySelector('.nav__hamburger');
     const links = document.querySelector('.nav__links');
-    if (!burger || !links) return;
-    burger.addEventListener('click', () => {
-        burger.classList.toggle('open');
-        links.classList.toggle('open');
-    });
+
+    // Burger toggle
+    if (burger && links) {
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('open');
+            links.classList.toggle('open');
+        });
+    }
+
+    // Dynamic Pill Header on Scroll
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('site-header--scrolled');
+            } else {
+                header.classList.remove('site-header--scrolled');
+            }
+        });
+    }
 }
 
 // ── Active nav link ──────────────────────────────────────────
@@ -80,28 +80,31 @@ function initProgressBar() {
 
 // ── Theme / Dark Mode Toggle ─────────────────────────────────
 function initTheme() {
-    // Determine initial theme
     const savedTheme = localStorage.getItem('vc-theme');
     if (savedTheme === 'light') {
         document.body.classList.add('light-mode');
     }
 
-    // Attempt to update icon if button exists
     function updateIcon(btn) {
         btn.textContent = document.body.classList.contains('light-mode') ? '🌙' : '☀️';
         btn.title = document.body.classList.contains('light-mode') ? 'Cambiar a Modo Oscuro' : 'Cambiar a Modo Claro';
     }
 
-    const btn = document.querySelector('.nav__theme-btn');
-    if (btn) {
+    const btns = document.querySelectorAll('.nav__theme-btn');
+    btns.forEach(btn => {
         updateIcon(btn);
         btn.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
             const isLight = document.body.classList.contains('light-mode');
             localStorage.setItem('vc-theme', isLight ? 'light' : 'dark');
-            updateIcon(btn);
+            btns.forEach(b => updateIcon(b));
+
+            // Re-init particles if they exist to match theme
+            if (window.tsParticles && document.getElementById('tsparticles')) {
+                initParticles();
+            }
         });
-    }
+    });
 }
 
 // ── Global Search ────────────────────────────────────────────
@@ -126,9 +129,8 @@ function initSearch() {
     const input = document.querySelector('#manualSearch');
     if (!input) return;
 
-    // Create dropdown wrapper
     const wrap = input.closest('.search-wrap');
-    if(!wrap) return;
+    if (!wrap) return;
 
     let resultsBox = wrap.querySelector('.search-results');
     if (!resultsBox) {
@@ -144,21 +146,20 @@ function initSearch() {
             return;
         }
 
-        const hits = searchIndex.filter(item => 
+        const hits = searchIndex.filter(item =>
             item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
         );
 
         resultsBox.innerHTML = '';
         if (hits.length === 0) {
-            resultsBox.innerHTML = '<div class="search-empty">No se encontraron resultados para "'+q+'"</div>';
+            resultsBox.innerHTML = '<div class="search-empty">No se encontraron resultados para "' + q + '"</div>';
         } else {
             hits.forEach(item => {
                 const a = document.createElement('a');
                 a.href = item.url;
                 a.className = 'search-result-item';
-                a.innerHTML = `<div class="search-result-title">${item.title}</div><div class="search-result-desc">${item.desc}</div>`;
-                
-                // Add click listener, since standard link navigation might not trigger if they click an anchor on the current page
+                a.innerHTML = `<div class="search-result-title">\${item.title}</div><div class="search-result-desc">\${item.desc}</div>`;
+
                 a.addEventListener('click', () => {
                     resultsBox.classList.remove('active');
                     input.value = '';
@@ -170,7 +171,6 @@ function initSearch() {
         resultsBox.classList.add('active');
     });
 
-    // Close when clicking outside
     document.addEventListener('click', (e) => {
         if (!wrap.contains(e.target)) {
             resultsBox.classList.remove('active');
@@ -183,7 +183,7 @@ function initQuizzes() {
     const quizzes = document.querySelectorAll('.quiz-container');
     if (!quizzes.length) return;
 
-    quizzes.forEach((quiz, index) => {
+    quizzes.forEach((quiz) => {
         const options = quiz.querySelectorAll('.quiz-option');
         if (!options.length) return;
 
@@ -191,44 +191,35 @@ function initQuizzes() {
 
         options.forEach(opt => {
             opt.addEventListener('click', () => {
-                if (answered) return; // Only one guess allowed for simplicity
+                if (answered) return;
                 answered = true;
 
-                // Lock all options
                 options.forEach(o => o.classList.add('locked'));
-
                 const isCorrect = opt.dataset.correct === 'true';
 
                 if (isCorrect) {
                     opt.classList.add('correct');
-                    // Add result text
                     const res = document.createElement('div');
                     res.className = 'quiz-result';
-                    res.innerHTML = `<h3 style="color:var(--color-success);font-size:1.5rem;margin-bottom:0.5rem;">¡Correcto! 🎉</h3><p style="color:var(--color-text-muted);">Has demostrado que entiendes esta parte fundamental.</p>`;
+                    res.innerHTML = '<h3 style="color:var(--color-success);font-size:1.5rem;margin-bottom:0.5rem;">¡Correcto! 🎉</h3><p style="color:var(--color-text-muted);">Has demostrado que entiendes esta parte fundamental.</p>';
                     quiz.appendChild(res);
 
-                    // Fire Confetti if available
                     if (typeof confetti === 'function') {
                         confetti({
-                            particleCount: 100,
-                            spread: 70,
+                            particleCount: 150,
+                            spread: 80,
                             origin: { y: 0.6 },
                             colors: ['#f2b705', '#06b6d4', '#ec4899', '#22c55e']
                         });
                     }
                 } else {
                     opt.classList.add('incorrect');
-                    // Show correct answer visually
                     options.forEach(o => {
-                        if (o.dataset.correct === 'true') {
-                            o.classList.add('correct');
-                        }
+                        if (o.dataset.correct === 'true') o.classList.add('correct');
                     });
-
-                    // Add result text
                     const res = document.createElement('div');
                     res.className = 'quiz-result';
-                    res.innerHTML = `<h3 style="color:var(--color-danger);font-size:1.5rem;margin-bottom:0.5rem;">Incorrecto 👀</h3><p style="color:var(--color-text-muted);">Repasa la sección correspondiente y vuelve a intentarlo.</p>`;
+                    res.innerHTML = '<h3 style="color:var(--color-danger);font-size:1.5rem;margin-bottom:0.5rem;">Incorrecto 👀</h3><p style="color:var(--color-text-muted);">Repasa la sección correspondiente y vuelve a intentarlo.</p>';
                     quiz.appendChild(res);
                 }
             });
@@ -236,10 +227,174 @@ function initQuizzes() {
     });
 }
 
+// ── tsParticles (Hero Interactive Background) ────────────────
+function initParticles() {
+    const container = document.getElementById('tsparticles');
+    if (!container || !window.tsParticles) return;
+
+    const isLight = document.body.classList.contains('light-mode');
+    const particleColor = isLight ? "#f2b705" : "#06b6d4";
+    const lineColor = isLight ? "#0f172a" : "#f2b705";
+
+    tsParticles.load("tsparticles", {
+        fpsLimit: 60,
+        interactivity: {
+            events: {
+                onHover: { enable: true, mode: "grab" },
+                resize: true,
+            },
+            modes: {
+                grab: { distance: 140, links: { opacity: 0.5 } }
+            },
+        },
+        particles: {
+            color: { value: particleColor },
+            links: {
+                color: lineColor,
+                distance: 150,
+                enable: true,
+                opacity: 0.2,
+                width: 1,
+            },
+            move: {
+                direction: "none",
+                enable: true,
+                outModes: { default: "bounce" },
+                random: false,
+                speed: 1,
+                straight: false,
+            },
+            number: { density: { enable: true, area: 800 }, value: 60 },
+            opacity: { value: 0.4 },
+            shape: { type: "circle" },
+            size: { value: { min: 1, max: 3 } },
+        },
+        detectRetina: true,
+    });
+}
+
+// ── GSAP Advanced Animations ─────────────────────────────────
+function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        // Fallback to basic reveal if GSAP fails to load
+        initBasicRevealFallback();
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero Animations
+    const heroTl = gsap.timeline();
+    heroTl.from(".hero__eyebrow", { y: 20, opacity: 0, duration: 0.8, ease: "back.out(1.7)" })
+        .from(".hero__title", { y: 30, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+        .from(".hero__sub", { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" }, "-=0.6")
+        .from(".hero .search-wrap", { scale: 0.9, opacity: 0, duration: 0.6, ease: "back.out(1.5)" }, "-=0.4")
+        .from(".hero .btn", { scale: 0.9, opacity: 0, duration: 0.5, stagger: 0.1, ease: "back.out(2)" }, "-=0.4");
+
+    // Dept Cards Stagger (Index)
+    if (document.querySelector('.dept-grid')) {
+        gsap.from(".dept-card", {
+            scrollTrigger: {
+                trigger: ".dept-grid",
+                start: "top 80%"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "back.out(1.2)"
+        });
+    }
+
+    // Manual Sections Re-reveal
+    const sections = document.querySelectorAll('.manual-section');
+    sections.forEach(sec => {
+        gsap.fromTo(sec,
+            { y: 40, opacity: 0 },
+            {
+                scrollTrigger: {
+                    trigger: sec,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            }
+        );
+    });
+
+    // Remove old base reveal classes to prevent conflicts
+    document.querySelectorAll('.reveal').forEach(el => {
+        el.style.opacity = 1;
+        el.style.transform = 'none';
+        el.classList.remove('reveal', 'reveal--fade', 'reveal--slide-up');
+    });
+}
+
+function initBasicRevealFallback() {
+    const els = document.querySelectorAll('.reveal');
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const delay = parseInt(e.target.dataset.delay || 0);
+            setTimeout(() => e.target.classList.add('is-visible'), delay);
+            io.unobserve(e.target);
+        });
+    }, { threshold: 0.12 });
+    els.forEach(el => io.observe(el));
+}
+
+// ── Vanilla Tilt (3D Cards) ──────────────────────────────────
+function initTilt() {
+    if (typeof VanillaTilt !== 'undefined') {
+        VanillaTilt.init(document.querySelectorAll(".dept-card, .skill-card, .step-card"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.15,
+        });
+    }
+}
+
+// ── Copy to Clipboard Sub-routine ────────────────────────────
+function initCopyButtons() {
+    // Add copy button to any element with class .copyable
+    const copyables = document.querySelectorAll('.copyable');
+    copyables.forEach(el => {
+        el.style.position = 'relative';
+        el.style.paddingRight = '40px';
+
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar';
+        btn.title = "Copiar al portapapeles";
+
+        btn.addEventListener('click', () => {
+            // Get text, ignoring the button's own text
+            const clone = el.cloneNode(true);
+            const childBtn = clone.querySelector('.copy-btn');
+            if (childBtn) clone.removeChild(childBtn);
+
+            navigator.clipboard.writeText(clone.innerText.trim()).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Listo';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copiar';
+                }, 2000);
+            });
+        });
+
+        el.appendChild(btn);
+    });
+}
+
 // ── Init all ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initTheme();
-    initReveal();
     initNav();
     initActiveLink();
     initBackTop();
@@ -247,4 +402,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initSearch();
     initProgressBar();
     initQuizzes();
+
+    // Phase 3 Features
+    initParticles();
+    initGSAP();
+    initTilt();
+    initCopyButtons();
 });
