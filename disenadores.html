@@ -211,6 +211,11 @@
                     <li><a href="taller.html" class="nav__link">Taller</a></li>
                     <li><a href="fundamentos.html" class="nav__link">Fundamentos</a></li>
                     <li><a href="marketing.html" class="nav__link">Marketing</a></li>
+                    <li><a href="induccion.html" class="nav__link">Inducción</a></li>
+                    <li><a href="seguridad.html" class="nav__link">Seguridad</a></li>
+                    <li style="display:flex;align-items:center;">
+                        <button class="nav__theme-btn" title="Cambiar Tema">🌙</button>
+                    </li>
                 </ul>
                 <button class="nav__hamburger" id="burger"><span></span><span></span><span></span></button>
             </nav>
@@ -863,6 +868,24 @@
                     </div>
                 </section>
 
+            
+                <!-- QUIZ DE PASE -->
+                <section class="manual-section reveal reveal--slide-up" style="margin-top:var(--sp-8);">
+                    <div class="quiz-container">
+                        <div class="quiz-header">
+                            <span class="quiz-icon">🧠</span>
+                            <div class="quiz-title">Pase de Pruebas</div>
+                        </div>
+                        <div class="quiz-question">En el sistema de colores de la máquina láser, ¿el color ROJO del contorno de una pieza significa...?</div>
+                        <div class="quiz-options">
+                            <div class="quiz-option" data-correct="false">Grabado Superficial (Engrave)</div><div class="quiz-option" data-correct="true">Corte Pasante (Cut)</div><div class="quiz-option" data-correct="false">Ignorar capa (Output No)</div>
+                        </div>
+                        <div class="quiz-nav">
+                            <span class="quiz-progress">Pregunta interactiva - ¡Pon a prueba lo que leíste!</span>
+                        </div>
+                    </div>
+                </section>
+        
             </main>
         </div>
     </div>
@@ -874,6 +897,9 @@
         </div>
     </footer>
     <button class="back-top" id="backTop" aria-label="Volver arriba">↑</button>
+    
+    <!-- Confetti JS -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="js/manual.js"></script>
 </body>
 
