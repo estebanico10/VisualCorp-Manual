@@ -469,16 +469,20 @@ function initCursor() {
     let ringX = mouseX;
     let ringY = mouseY;
 
+    // Usamos left/top para posicionar — así CSS puede manejar `transform`
+    // libremente (scale en hover no es sobreescrito por JS)
     window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-        dot.style.transform = `translate(calc(\${mouseX}px - 50%), calc(\${mouseY}px - 50%))`;
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
     });
 
     function renderRing() {
         ringX += (mouseX - ringX) * 0.15;
         ringY += (mouseY - ringY) * 0.15;
-        ring.style.transform = `translate(calc(\${ringX}px - 50%), calc(\${ringY}px - 50%))`;
+        ring.style.left = ringX + 'px';
+        ring.style.top = ringY + 'px';
         requestAnimationFrame(renderRing);
     }
     requestAnimationFrame(renderRing);
