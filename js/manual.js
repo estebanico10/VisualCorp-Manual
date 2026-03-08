@@ -599,13 +599,22 @@ function initPageContent() {
     initBackTop();
     initToc();
     initProgressBar();
-    initQuizzes();
+    if (typeof initQuizzes !== 'undefined') initQuizzes(); // Legacy quizzes
+
+    // Initialize New MiniApps (Fase 5) Si existen en el DOM
+    if (typeof window.VisualApps !== 'undefined') {
+        window.VisualApps.initCalculadora();
+        window.VisualApps.initDistancia();
+        window.VisualApps.initQuiz();
+        window.VisualApps.initChecklist();
+        window.VisualApps.initColorMatch();
+    }
 
     // Phase 3 & 4 Features
-    initParticles();
-    initGSAP();
-    initTilt();
-    initCopyButtons();
+    if (typeof initParticles !== 'undefined') initParticles();
+    if (typeof initGSAP !== 'undefined') initGSAP();
+    if (typeof initTilt !== 'undefined') initTilt();
+    if (typeof initCopyButtons !== 'undefined') initCopyButtons();
     if (window.bindCursorHover) window.bindCursorHover(); // Re-bind hover states to new DOM
     if (window.bindUISounds) window.bindUISounds(); // Re-bind sound triggers to new DOM
 }
@@ -614,14 +623,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initGlobalFeatures();
     initPageContent();
 
-    // Swup Page Transitions (Phase 4)
-    if (typeof window.Swup !== 'undefined') {
+    // Swup Page Transitions — solo si se sirve desde un servidor HTTP
+    // En file:// no funciona porque fetch() está bloqueado por CORS
+    const isFileProtocol = window.location.protocol === 'file:';
+    if (!isFileProtocol && typeof window.Swup !== 'undefined') {
         const swup = new window.Swup();
 
         swup.hooks.on('page:view', () => {
-            // Scroll to top on page change
             window.scrollTo(0, 0);
-            // Re-mount dynamic components inside #swup and update navigation styles
             initPageContent();
         });
     }

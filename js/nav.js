@@ -29,15 +29,16 @@
                 <li><a href="taller.html" class="nav__dropdown-link ${currentPath === 'taller.html' ? 'active' : ''}">🔧 Taller</a></li>
               </ul>
             </li>
-            <li class="nav__item nav__item-dropdown">
-            <a href="#" class="nav__link" id="miniAppsLink">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em; margin-left:4px;"></i></a>
-            <ul class="nav__dropdown">
-              <li><a href="app-checklist.html" class="nav__dropdown-link"><i class="fa-solid fa-check-double" style="width:20px;"></i> Checklist</a></li>
-              <li><a href="app-calculadora.html" class="nav__dropdown-link"><i class="fa-solid fa-calculator" style="width:20px;"></i> Calculadora</a></li>
-              <li><a href="app-quiz.html" class="nav__dropdown-link"><i class="fa-solid fa-gamepad" style="width:20px;"></i> Quiz / Trivia</a></li>
-              <li><a href="app-distancia.html" class="nav__dropdown-link"><i class="fa-solid fa-eye" style="width:20px;"></i> Distancia Visual</a></li>
-            </ul>
-          </li>
+            <li class="nav__item-dropdown">
+              <span class="nav__link" id="miniAppsLink">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em; margin-left:4px;"></i></span>
+              <ul class="nav__dropdown">
+                <li><a href="app-checklist.html" class="nav__dropdown-link"><i class="fa-solid fa-check-double" style="width:20px;"></i> Checklist V2</a></li>
+                <li><a href="app-calculadora.html" class="nav__dropdown-link"><i class="fa-solid fa-calculator" style="width:20px;"></i> Calculadora M²</a></li>
+                <li><a href="app-quiz.html" class="nav__dropdown-link"><i class="fa-solid fa-gamepad" style="width:20px;"></i> Quiz / Trivia</a></li>
+                <li><a href="app-distancia.html" class="nav__dropdown-link"><i class="fa-solid fa-ruler-combined" style="width:20px;"></i> Distancia Visual</a></li>
+                <li><a href="app-colormatch.html" class="nav__dropdown-link"><i class="fa-solid fa-palette" style="width:20px;"></i> Color Match</a></li>
+              </ul>
+            </li>
             <li><a href="fundamentos.html" class="nav__link ${currentPath === 'fundamentos.html' ? 'active' : ''}">Fundamentos</a></li>
             <li><a href="marketing.html" class="nav__link ${currentPath === 'marketing.html' ? 'active' : ''}">Marketing</a></li>
             <li><a href="induccion.html" class="nav__link ${currentPath === 'induccion.html' ? 'active' : ''}">Inducción</a></li>

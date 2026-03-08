@@ -102,6 +102,202 @@
             background: #ef4444;
             color: white;
         }
+
+        .template-tabs {
+            display: flex;
+            gap: var(--sp-2);
+            margin-bottom: var(--sp-6);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .template-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            padding: var(--sp-2) var(--sp-4);
+            border-radius: var(--radius-full);
+            font-size: var(--fs-sm);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .template-btn:hover,
+        .template-btn.active {
+            background: var(--color-accent-hover);
+            border-color: var(--color-accent-hover);
+            color: white;
+        }
+
+        /* --- NUEVO: Estilos Editor Checklist --- */
+        .checklist-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--sp-4);
+            flex-wrap: wrap;
+            gap: var(--sp-2);
+        }
+
+        .checklist-actions {
+            display: flex;
+            gap: var(--sp-2);
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            padding: var(--sp-1) var(--sp-3);
+            border-radius: var(--radius-md);
+            font-size: var(--fs-xs);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: var(--sp-1);
+        }
+
+        .action-btn:hover {
+            background: var(--color-bg-alt);
+            color: var(--color-heading);
+            border-color: var(--color-heading);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: var(--sp-3) var(--sp-4);
+            border-radius: var(--radius-md);
+            margin-top: var(--sp-6);
+            margin-bottom: var(--sp-3);
+            border-left: 3px solid var(--color-accent-hover);
+        }
+
+        .category-title {
+            font-size: var(--fs-base);
+            font-weight: 700;
+            color: var(--color-heading);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--sp-2);
+        }
+
+        .editable-text {
+            border: 1px dashed transparent;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .edit-mode .editable-text {
+            border-color: var(--color-border);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: text;
+        }
+
+        .edit-mode .editable-text:focus {
+            outline: none;
+            border-color: var(--color-accent-hover);
+            background: var(--color-surface);
+        }
+
+        .item-actions {
+            display: none;
+            gap: 8px;
+        }
+
+        .edit-mode .item-actions {
+            display: flex;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: var(--fs-sm);
+            transition: color 0.2s;
+            padding: 4px;
+        }
+
+        .btn-icon:hover {
+            color: var(--color-heading);
+        }
+
+        .btn-icon.danger:hover {
+            color: #ef4444;
+        }
+
+        .add-item-btn {
+            display: none;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed var(--color-border);
+            color: var(--color-text-muted);
+            padding: var(--sp-3);
+            border-radius: var(--radius-lg);
+            margin-top: var(--sp-2);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .edit-mode .add-item-btn {
+            display: block;
+        }
+
+        .add-item-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--color-heading);
+            border-color: var(--color-heading);
+        }
+
+        /* Modal Simple */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--sp-6);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h3 {
+            color: var(--color-heading);
+            margin-bottom: var(--sp-4);
+        }
+
+        .modal input {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: var(--sp-4);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: var(--sp-2);
+            justify-content: flex-end;
+        }
     </style>
 </head>
 
@@ -119,8 +315,8 @@
                 </h1>
                 <p class="hero__sub reveal reveal--slide-up" data-delay="180"
                     style="font-size:var(--fs-base);max-width:600px;margin:1rem auto;">
-                    Usa esta lista interactiva antes de enviar archivos a la Galaxy o al taller para asegurar calidad y
-                    evitar desperdicio de material.
+                    Usa esta lista interactiva para no olvidar ningún paso durante tu jornada. Selecciona tu rol para
+                    cargar tus tareas específicas.
                 </p>
             </div>
         </section>
@@ -128,9 +324,23 @@
         <div class="container" style="margin-bottom: var(--sp-12);">
             <div class="checklist-app reveal reveal--slide-up">
 
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 style="font-size:var(--fs-xl); color:var(--color-heading);">Pasos de Verificación</h2>
-                    <span id="progressText" style="font-weight:700; color:var(--color-accent-hover);">0/6</span>
+                <div class="template-tabs" id="checklistTabs">
+                    <!-- Botonera generada por JS -->
+                    <button class="action-btn" id="newChecklistBtn" style="margin-left:auto;"><i
+                            class="fa-solid fa-plus"></i> Nueva</button>
+                </div>
+
+                <div class="checklist-controls">
+                    <h2 id="checklistTitle" class="editable-text"
+                        style="font-size:var(--fs-xl); color:var(--color-heading); margin:0;" spellcheck="false">
+                        Selecciona una Plantilla</h2>
+                    <div class="checklist-actions">
+                        <button class="action-btn" id="editChecklistBtn"><i class="fa-solid fa-pen"></i> Editar</button>
+                        <button class="action-btn danger" id="deleteChecklistBtn" style="display:none;"><i
+                                class="fa-solid fa-trash"></i></button>
+                        <span id="progressText"
+                            style="font-weight:700; color:var(--color-accent-hover); margin-left:var(--sp-2); font-size:var(--fs-lg);">0/0</span>
+                    </div>
                 </div>
 
                 <div class="progress-bar-container">
@@ -138,54 +348,12 @@
                 </div>
 
                 <div id="checkListContainer">
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Modo de Color a CMYK</div>
-                            <div class="check-desc">Verificar que el documento no esté en RGB para impresión.</div>
-                        </div>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Resolución Correcta (DPI)</div>
-                            <div class="check-desc">Mínimo 150 DPI para banners, 300 DPI para papelería o stickers.
-                            </div>
-                        </div>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Sangría de 3 a 5 mm</div>
-                            <div class="check-desc">Fondo extendido fuera de las líneas de corte.</div>
-                        </div>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Letras Convrtidas a Curvas</div>
-                            <div class="check-desc">Ctrl+Shift+O en Illustrator para evitar pérdidas tipográficas.</div>
-                        </div>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Zona Segura de Texto</div>
-                            <div class="check-desc">Toda información importante lejos de los bordes (min 5-10mm).</div>
-                        </div>
-                    </label>
-                    <label class="check-item">
-                        <input type="checkbox" onchange="updateChecklist()">
-                        <div>
-                            <div class="check-text">Exportado en Formato Correcto</div>
-                            <div class="check-desc">Guardado en TIFF para impresión o vector en AI para corte.</div>
-                        </div>
-                    </label>
+                    <!-- Items insertados dinámicamente -->
                 </div>
 
-                <div style="text-align:center;">
-                    <button class="reset-btn" onclick="resetChecklist()"><i class="fa-solid fa-rotate-right"></i>
-                        Reiniciar Checklist</button>
+                <div style="text-align:center; margin-top:var(--sp-8);">
+                    <button class="reset-btn" id="resetChecklistBtn"><i class="fa-solid fa-rotate-right"></i>
+                        Reiniciar Proceso</button>
 
                     <div id="successMessage"
                         style="display:none; margin-top:var(--sp-4); padding:var(--sp-4); background:rgba(34,197,94,0.1); border:1px solid #22c55e; border-radius:var(--radius-md); color:#4ade80; font-weight:700;">
@@ -196,6 +364,26 @@
             </div>
         </div>
     </main>
+
+    <!-- Modal Nuevo Elemento -->
+    <div class="modal-overlay" id="itemModalOverlay">
+        <div class="modal">
+            <h3 id="itemModalTitle">Añadir Tarea</h3>
+            <div class="input-group">
+                <label>Título Breve</label>
+                <input type="text" id="itemInputTitle" class="calc-input" placeholder="Ej: Curvas Ctrl+O">
+            </div>
+            <div class="input-group">
+                <label>Descripción / Detalle</label>
+                <input type="text" id="itemInputDesc" class="calc-input" placeholder="Opcional. Breve explicación">
+            </div>
+            <div class="modal-buttons">
+                <button class="action-btn" id="itemModalCancel">Cancelar</button>
+                <button class="reset-btn" id="itemModalSave"
+                    style="margin:0; width:auto; padding:var(--sp-2) var(--sp-4);">Guardar</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
@@ -208,53 +396,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
+    <script src="js/apps.js"></script>
     <script src="js/manual.js"></script>
-
-    <script>
-        function updateChecklist() {
-            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-            const total = checkboxes.length;
-            let checked = 0;
-
-            checkboxes.forEach(cb => {
-                const parent = cb.closest('.check-item');
-                if (cb.checked) {
-                    checked++;
-                    parent.classList.add('completed');
-                } else {
-                    parent.classList.remove('completed');
-                }
-            });
-
-            const percent = (checked / total) * 100;
-            document.getElementById('progressBar').style.width = percent + '%';
-            document.getElementById('progressText').innerText = checked + '/' + total;
-
-            const successMsg = document.getElementById('successMessage');
-            if (checked === total) {
-                successMsg.style.display = 'block';
-                if (typeof confetti === 'function') {
-                    confetti({
-                        particleCount: 100,
-                        spread: 70,
-                        origin: { y: 0.6 }
-                    });
-                }
-            } else {
-                successMsg.style.display = 'none';
-            }
-        }
-
-        function resetChecklist() {
-            const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
-            checkboxes.forEach(cb => {
-                cb.checked = false;
-                cb.closest('.check-item').classList.remove('completed');
-            });
-            updateChecklist();
-        }
-    </script>
-
     <script src="https://unpkg.com/swup@4"></script>
 </body>
 

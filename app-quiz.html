@@ -318,7 +318,7 @@
                         <div class="feedback-text" id="fbText">Explicación.</div>
                     </div>
 
-                    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Siguiente Pregunta <i
+                    <button class="next-btn" id="nextBtn">Siguiente Pregunta <i
                             class="fa-solid fa-arrow-right"></i></button>
                 </div>
 
@@ -328,8 +328,7 @@
                     <h2 style="font-size:var(--fs-2xl); color:var(--color-heading);">¡Trivia Completada!</h2>
                     <div class="end-score" id="endScoreDisplay">10/10</div>
                     <p class="end-msg" id="endMsg">¡Nivel Maestro Impresor!</p>
-                    <button class="reset-quiz-btn" onclick="startQuiz()"><i class="fa-solid fa-rotate-right"></i> Volver
-                        a Intentar</button>
+                    <button class="reset-quiz-btn"><i class="fa-solid fa-rotate-right"></i> Volver a Intentar</button>
                 </div>
 
             </div>
@@ -346,183 +345,9 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/db_preguntas.js"></script>
+    <script src="js/apps.js"></script>
     <script src="js/manual.js"></script>
-
-    <script>
-        let db = [];
-        let currentQuestions = [];
-        let currentIndex = 0;
-        let score = 0;
-        let answered = false;
-
-        // Elementos UI
-        const loader = document.getElementById('loader');
-        const quizContainer = document.getElementById('quizContainer');
-        const endScreen = document.getElementById('endScreen');
-
-        const qCurrentEl = document.getElementById('qCurrent');
-        const qTotalEl = document.getElementById('qTotal');
-        const scoreDisplayEl = document.getElementById('scoreDisplay');
-        const progressBarEl = document.getElementById('progressBar');
-
-        const qCategoryEl = document.getElementById('qCategory');
-        const qTextEl = document.getElementById('qText');
-        const optionsGridEl = document.getElementById('optionsGrid');
-
-        const feedbackBox = document.getElementById('feedbackBox');
-        const fbTitle = document.getElementById('fbTitle');
-        const fbText = document.getElementById('fbText');
-        const nextBtn = document.getElementById('nextBtn');
-
-        // Fetch JSON DB
-        async function fetchQuestions() {
-            try {
-                const res = await fetch('js/db_preguntas.json');
-                db = await res.json();
-                startQuiz();
-            } catch (error) {
-                console.error('Error fetching db_preguntas.json:', error);
-                loader.innerHTML = '<p style="color:#ef4444;">Error cargando las preguntas. Recarga la página.</p>';
-            }
-        }
-
-        // Shuffle arrays (Fisher-Yates)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-
-        function startQuiz() {
-            // Setup quiz
-            // Tomamos una muestra aleatoria de 5 o 10 preguntas (depende db)
-            currentQuestions = shuffleArray([...db]).slice(0, 5);
-            currentIndex = 0;
-            score = 0;
-
-            // Hide everything but quiz
-            loader.style.display = 'none';
-            endScreen.style.display = 'none';
-            quizContainer.style.display = 'block';
-
-            qTotalEl.innerText = currentQuestions.length;
-            updateScoreUI();
-
-            loadQuestion();
-        }
-
-        function loadQuestion() {
-            answered = false;
-            feedbackBox.style.display = 'none';
-            feedbackBox.className = 'feedback-box'; // reset classes
-            nextBtn.style.display = 'none';
-
-            const q = currentQuestions[currentIndex];
-
-            // UI Updates
-            qCurrentEl.innerText = currentIndex + 1;
-            progressBarEl.style.width = `${((currentIndex) / currentQuestions.length) * 100}%`;
-
-            qCategoryEl.innerText = q.category;
-            qTextEl.innerText = q.question;
-
-            // Setup Options
-            optionsGridEl.innerHTML = '';
-
-            const letters = ['A', 'B', 'C', 'D'];
-
-            q.options.forEach((optText, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn';
-                btn.innerHTML = `<span class="option-letter">${letters[index]}</span> <span>${optText}</span>`;
-                btn.onclick = () => selectOption(index, btn);
-                optionsGridEl.appendChild(btn);
-            });
-        }
-
-        function selectOption(selectedIndex, btnElement) {
-            if (answered) return;
-            answered = true;
-
-            const q = currentQuestions[currentIndex];
-            const isCorrect = selectedIndex === q.correct;
-
-            // Highlight Buttons
-            const buttons = optionsGridEl.querySelectorAll('.option-btn');
-            buttons.forEach((btn, i) => {
-                btn.disabled = true; // prevent more clicks
-                if (i === q.correct) {
-                    btn.classList.add('correct');
-                } else if (i === selectedIndex && !isCorrect) {
-                    btn.classList.add('wrong');
-                }
-            });
-
-            // Feedback & Score
-            feedbackBox.style.display = 'block';
-            if (isCorrect) {
-                score++;
-                updateScoreUI();
-                feedbackBox.classList.add('correct');
-                fbTitle.innerHTML = '<i class="fa-solid fa-circle-check"></i> ¡Excelente!';
-            } else {
-                feedbackBox.classList.add('wrong');
-                fbTitle.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Incorrecto';
-            }
-            fbText.innerText = q.explanation;
-
-            nextBtn.style.display = 'block';
-
-            // Optional Sound
-            if (window.playPop && isCorrect) window.playPop();
-        }
-
-        function updateScoreUI() {
-            scoreDisplayEl.innerText = score * 10; // 10 pts per correct
-        }
-
-        function nextQuestion() {
-            currentIndex++;
-            if (currentIndex < currentQuestions.length) {
-                progressBarEl.style.width = `${((currentIndex) / currentQuestions.length) * 100}%`;
-                loadQuestion();
-            } else {
-                showEndScreen();
-            }
-        }
-
-        function showEndScreen() {
-            progressBarEl.style.width = '100%';
-            quizContainer.style.display = 'none';
-            endScreen.style.display = 'block';
-
-            const maxScore = currentQuestions.length;
-            const percentage = score / maxScore;
-
-            document.getElementById('endScoreDisplay').innerText = `${score}/${maxScore}`;
-
-            let emoji = '😐';
-            let msg = 'Hay que repasar el manual.';
-
-            if (percentage === 1) {
-                emoji = '🏆'; msg = '¡Nivel Maestro Oficial! Fallas Cero.';
-                if (typeof confetti === 'function') confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-            } else if (percentage >= 0.8) {
-                emoji = '🔥'; msg = '¡Excelente trabajo! Conoces bien los procesos.';
-            } else if (percentage >= 0.5) {
-                emoji = '👍'; msg = 'Vas por buen camino. Sigue repasando.';
-            }
-
-            document.getElementById('endEmoji').innerText = emoji;
-            document.getElementById('endMsg').innerText = msg;
-        }
-
-        // Init App on Load
-        document.addEventListener('DOMContentLoaded', fetchQuestions);
-
-    </script>
     <script src="https://unpkg.com/swup@4"></script>
 </body>
 

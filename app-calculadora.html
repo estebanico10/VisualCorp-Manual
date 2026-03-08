@@ -145,16 +145,16 @@
                     <div class="calc-group">
                         <label class="calc-label">Ancho (Base)</label>
                         <div class="calc-input-wrap">
-                            <input type="number" id="baseInput" class="calc-input" placeholder="0.00"
-                                oninput="calculateArea()" min="0" step="0.01">
+                            <input type="number" id="baseInput" class="calc-input" placeholder="0.00" min="0"
+                                step="0.01">
                             <span class="calc-unit">metros</span>
                         </div>
                     </div>
                     <div class="calc-group">
                         <label class="calc-label">Alto (Altura)</label>
                         <div class="calc-input-wrap">
-                            <input type="number" id="heightInput" class="calc-input" placeholder="0.00"
-                                oninput="calculateArea()" min="0" step="0.01">
+                            <input type="number" id="heightInput" class="calc-input" placeholder="0.00" min="0"
+                                step="0.01">
                             <span class="calc-unit">metros</span>
                         </div>
                     </div>
@@ -163,15 +163,14 @@
                 <div class="calc-group">
                     <label class="calc-label">Cantidad</label>
                     <div class="calc-input-wrap">
-                        <input type="number" id="qtyInput" class="calc-input" value="1" oninput="calculateArea()"
-                            min="1" step="1">
+                        <input type="number" id="qtyInput" class="calc-input" value="1" min="1" step="1">
                         <span class="calc-unit">unidades</span>
                     </div>
                 </div>
 
                 <div class="calc-group">
                     <label class="calc-label">Material de Impresión Base</label>
-                    <select id="materialSelect" class="calc-select" onchange="calculateArea()">
+                    <select id="materialSelect" class="calc-select">
                         <option value="0">Solo calcular área (Sin precio)</option>
                         <option value="5">Lona Standard 11oz ($5 x m²)</option>
                         <option value="7">Lona Premium 13oz ($7 x m²)</option>
@@ -204,31 +203,9 @@
         </div>
     </footer>
 
-    <script>
-        function calculateArea() {
-            const base = parseFloat(document.getElementById('baseInput').value) || 0;
-            const height = parseFloat(document.getElementById('heightInput').value) || 0;
-            const qty = parseInt(document.getElementById('qtyInput').value) || 1;
-            const pricePerSqm = parseFloat(document.getElementById('materialSelect').value) || 0;
-
-            const areaSqm = base * height;
-            const totalArea = areaSqm * qty;
-
-            document.getElementById('resultArea').innerText = totalArea.toFixed(2) + ' m²';
-
-            const priceContainer = document.getElementById('priceContainer');
-            if (pricePerSqm > 0 && totalArea > 0) {
-                const totalPrice = totalArea * pricePerSqm;
-                document.getElementById('resultPrice').innerText = '$' + totalPrice.toFixed(2);
-                priceContainer.style.display = 'block';
-            } else {
-                priceContainer.style.display = 'none';
-            }
-        }
-    </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="js/apps.js"></script>
     <script src="js/manual.js"></script>
     <script src="https://unpkg.com/swup@4"></script>
 </body>
