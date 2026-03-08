@@ -29,13 +29,15 @@
                 <li><a href="taller.html" class="nav__dropdown-link ${currentPath === 'taller.html' ? 'active' : ''}">🔧 Taller</a></li>
               </ul>
             </li>
-            <li class="nav__item-dropdown">
-              <span class="nav__link ${isAppActive ? 'active' : ''}">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em;margin-left:4px;"></i></span>
-              <ul class="nav__dropdown">
-                <li><a href="app-checklist.html" class="nav__dropdown-link ${currentPath === 'app-checklist.html' ? 'active' : ''}">✅ Checklist pre-impresión</a></li>
-                <li><a href="app-calculadora.html" class="nav__dropdown-link ${currentPath === 'app-calculadora.html' ? 'active' : ''}">🧮 Calculadora de área</a></li>
-              </ul>
-            </li>
+            <li class="nav__item nav__item-dropdown">
+            <a href="#" class="nav__link" id="miniAppsLink">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em; margin-left:4px;"></i></a>
+            <ul class="nav__dropdown">
+              <li><a href="app-checklist.html" class="nav__dropdown-link"><i class="fa-solid fa-check-double" style="width:20px;"></i> Checklist</a></li>
+              <li><a href="app-calculadora.html" class="nav__dropdown-link"><i class="fa-solid fa-calculator" style="width:20px;"></i> Calculadora</a></li>
+              <li><a href="app-quiz.html" class="nav__dropdown-link"><i class="fa-solid fa-gamepad" style="width:20px;"></i> Quiz / Trivia</a></li>
+              <li><a href="app-distancia.html" class="nav__dropdown-link"><i class="fa-solid fa-eye" style="width:20px;"></i> Distancia Visual</a></li>
+            </ul>
+          </li>
             <li><a href="fundamentos.html" class="nav__link ${currentPath === 'fundamentos.html' ? 'active' : ''}">Fundamentos</a></li>
             <li><a href="marketing.html" class="nav__link ${currentPath === 'marketing.html' ? 'active' : ''}">Marketing</a></li>
             <li><a href="induccion.html" class="nav__link ${currentPath === 'induccion.html' ? 'active' : ''}">Inducción</a></li>
@@ -58,30 +60,52 @@
 
 // Función global para actualizar el estado "active" (usada por Swup)
 window.updateNavActiveLink = function () {
-  const current = window.location.pathname.split('/').pop() || 'index.html';
-  const depts = ['asesores.html', 'impresores.html', 'corte-laser.html', 'disenadores.html', 'taller.html'];
-  const apps = ['app-checklist.html', 'app-calculadora.html'];
+  const links = document.querySelectorAll('.nav__link, .nav__dropdown-link');
+  let currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
-  // Remover activaciones anteriores
-  document.querySelectorAll('.nav__link, .nav__dropdown-link').forEach(el => {
-    el.classList.remove('active');
-  });
+  // Remove hash or query params
+  currentPath = currentPath.split('#')[0].split('?')[0];
 
-  // Activar los nuevos correspondientes
-  document.querySelectorAll('.nav__link').forEach(a => {
-    if (a.getAttribute('href') === current) {
-      a.classList.add('active');
-    }
-  });
+  links.forEach(link => {
+    const href = link.getAttribute('href');
+    if (href === currentPath) {
+      link.classList.add('active');
 
-  document.querySelectorAll('.nav__dropdown-link').forEach(a => {
-    if (a.getAttribute('href') === current) {
-      a.classList.add('active');
-      const parentDropdownItem = a.closest('.nav__item-dropdown');
-      if (parentDropdownItem) {
-        const parentLink = parentDropdownItem.querySelector('.nav__link');
+      // If it's a dropdown item, also highlight the parent
+      const dropdownParent = link.closest('.nav__item-dropdown');
+      if (dropdownParent) {
+        const parentLink = dropdownParent.querySelector('.nav__link');
         if (parentLink) parentLink.classList.add('active');
       }
+    } else {
+      link.classList.remove('active');
     }
   });
 };
+
+// Touch Support for Dropdown
+document.addEventListener('DOMContentLoaded', () => {
+  const dropdownItem = document.querySelector('.nav__item-dropdown'); // This targets the first dropdown
+  const miniAppsDropdownItem = document.querySelector('li:has(#miniAppsLink)'); // Target the specific li for Mini Apps
+  const miniAppsLinkParent = document.getElementById('miniAppsLink');
+
+  if (miniAppsDropdownItem && miniAppsLinkParent) {
+    miniAppsLinkParent.addEventListener('click', (e) => {
+      // Only prevent default and toggle if it's a touch device or small screen
+      if (window.innerWidth <= 900 || ('ontouchstart' in window) || navigator.maxTouchPoints > 0) {
+        e.preventDefault();
+        miniAppsDropdownItem.classList.toggle('touch-open');
+      }
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!miniAppsDropdownItem.contains(e.target) && !miniAppsLinkParent.contains(e.target)) {
+        miniAppsDropdownItem.classList.remove('touch-open');
+      }
+    });
+  }
+
+  // Call it immediately after injection
+  window.updateNavActiveLink();
+});
