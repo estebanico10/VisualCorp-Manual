@@ -34,6 +34,7 @@
                     <li><a href="taller.html" class="nav__link">Taller</a></li>
                     <li><a href="fundamentos.html" class="nav__link active"
                             style="color:var(--color-heading);">Fundamentos</a></li>
+                    <li><a href="marketing.html" class="nav__link">Marketing</a></li>
                 </ul>
                 <button class="nav__hamburger" id="burger"><span></span><span></span><span></span></button>
             </nav>
@@ -75,6 +76,12 @@
                     </li>
                     <li class="toc-item"><a href="#sangria"><span class="toc-dot"></span>Márgenes y Sangría</a></li>
                     <li class="toc-item"><a href="#glosario"><span class="toc-dot"></span>Glosario de Publicidad</a>
+                    </li>
+                    <li class="toc-item"><a href="#resolucion-detalle"><span class="toc-dot"></span>Resolución Gran
+                            Formato</a></li>
+                    <li class="toc-item"><a href="#sangria-detalle"><span class="toc-dot"></span>Sangría y Zona
+                            Segura</a></li>
+                    <li class="toc-item"><a href="#checklist"><span class="toc-dot"></span>Checklist de Archivos</a>
                     </li>
                 </ul>
             </aside>
@@ -648,8 +655,251 @@
                                 comunicación. Es lo que hace reconocible a una empresa.</p>
                         </div>
                     </div>
+                </section>
 
-                    <div style="margin-top:var(--sp-8);text-align:center;">
+                <hr class="section-divider">
+
+                <!-- RESOLUCIÓN PARA GRAN FORMATO -->
+                <section class="manual-section reveal reveal--slide-up" id="resolucion-detalle">
+                    <span class="section-eyebrow">🔍 Sección 11</span>
+                    <h2 class="section-title">Resolución para Gran Formato</h2>
+                    <p class="section-sub">En publicidad exterior, no siempre necesitas 300 DPI. La resolución correcta
+                        depende del tamaño del producto y la distancia de visualización.</p>
+
+                    <div
+                        style="display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));gap:var(--sp-5);margin:var(--sp-6) 0;">
+                        <div
+                            style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--sp-6);text-align:center;">
+                            <div style="font-size:2.5rem;margin-bottom:var(--sp-3);">🏢</div>
+                            <div
+                                style="font-size:var(--fs-2xl);font-weight:900;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                                72 DPI</div>
+                            <div style="font-weight:700;color:var(--color-heading);margin:var(--sp-2) 0;">Gran formato
+                                (&gt;3m²)</div>
+                            <p style="font-size:var(--fs-xs);color:var(--color-text-muted);">Vallas, lonas grandes,
+                                banners de pared completa. Se ven a distancia &gt;3 metros.</p>
+                        </div>
+                        <div
+                            style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--sp-6);text-align:center;">
+                            <div style="font-size:2.5rem;margin-bottom:var(--sp-3);">🪧</div>
+                            <div
+                                style="font-size:var(--fs-2xl);font-weight:900;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                                150 DPI</div>
+                            <div style="font-weight:700;color:var(--color-heading);margin:var(--sp-2) 0;">Medio formato
+                                (1–3m²)</div>
+                            <p style="font-size:var(--fs-xs);color:var(--color-text-muted);">Roll-ups, pendones, letras
+                                recortadas. Vista a 1–3 metros de distancia.</p>
+                        </div>
+                        <div
+                            style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--sp-6);text-align:center;">
+                            <div style="font-size:2.5rem;margin-bottom:var(--sp-3);">🖨️</div>
+                            <div
+                                style="font-size:var(--fs-2xl);font-weight:900;background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                                300 DPI</div>
+                            <div style="font-weight:700;color:var(--color-heading);margin:var(--sp-2) 0;">Pequeño
+                                formato (&lt;1m²)</div>
+                            <p style="font-size:var(--fs-xs);color:var(--color-text-muted);">Tarjetas, volantes,
+                                stickers, menús. Se ven de cerca, a menos de 1 metro.</p>
+                        </div>
+                    </div>
+
+                    <div class="callout callout--warning">
+                        <span class="callout__icon">⚠️</span>
+                        <div class="callout__body">
+                            <p class="callout__title">No escales imágenes pequeñas</p>
+                            <p class="callout__text">Una imagen de 500×500 pixeles <strong>NO se puede</strong> estirar
+                                a 3 metros sin que se pixelee. Siempre verifica el tamaño original del archivo antes de
+                                diseñar. Si la imagen del cliente es muy pequeña, pide una versión de mayor resolución o
+                                busca una alternativa en bancos de imágenes.</p>
+                        </div>
+                    </div>
+
+                    <div class="tip-list" style="margin-top:var(--sp-5);">
+                        <div class="tip-item">📐 <strong>Regla rápida:</strong> Multiplica el largo (en metros) × ancho
+                            (en metros) × DPI × 39.37 para saber los píxeles que necesitas</div>
+                        <div class="tip-item">🖥️ <strong>Zooms al 100%:</strong> En Photoshop o Illustrator, haz zoom
+                            al 100% para ver cómo se verá el archivo al tamaño real</div>
+                        <div class="tip-item">📷 <strong>Fotos del celular:</strong> Las fotos de un celular moderno
+                            (12MP+) sirven hasta tamaño A3 a 300 DPI. Para tamaños más grandes, baja la resolución
+                            proporcionalmente</div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- SANGRÍA Y ZONA SEGURA -->
+                <section class="manual-section reveal reveal--slide-up" id="sangria-detalle">
+                    <span class="section-eyebrow">✂️ Sección 12</span>
+                    <h2 class="section-title">Sangría y Zona Segura en Detalle</h2>
+                    <p class="section-sub">El corte de la máquina nunca es 100% exacto. Por eso necesitamos márgenes de
+                        seguridad para evitar que el contenido importante quede cortado o que aparezcan bordes blancos.
+                    </p>
+
+                    <div
+                        style="background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--sp-8);margin:var(--sp-6) 0;">
+                        <div style="position:relative;max-width:500px;margin:0 auto;">
+                            <!-- Diagrama visual de sangría -->
+                            <div
+                                style="border:3px dashed #ef4444;border-radius:var(--radius-lg);padding:var(--sp-6);position:relative;">
+                                <span
+                                    style="position:absolute;top:-12px;left:var(--sp-3);background:var(--color-surface);padding:0 var(--sp-2);color:#ef4444;font-size:var(--fs-xs);font-weight:700;">SANGRÍA
+                                    (Bleed) — 3-5mm extra</span>
+                                <div
+                                    style="border:2px solid var(--color-accent-hover);border-radius:var(--radius-md);padding:var(--sp-6);position:relative;">
+                                    <span
+                                        style="position:absolute;top:-12px;left:var(--sp-3);background:var(--color-surface);padding:0 var(--sp-2);color:var(--color-accent-hover);font-size:var(--fs-xs);font-weight:700;">LÍNEA
+                                        DE CORTE — Tamaño final</span>
+                                    <div
+                                        style="border:2px solid #22c55e;border-radius:var(--radius-sm);padding:var(--sp-6);text-align:center;position:relative;">
+                                        <span
+                                            style="position:absolute;top:-12px;left:var(--sp-3);background:var(--color-surface);padding:0 var(--sp-2);color:#22c55e;font-size:var(--fs-xs);font-weight:700;">ZONA
+                                            SEGURA — 5-10mm adentro</span>
+                                        <p
+                                            style="color:var(--color-text-muted);font-size:var(--fs-sm);margin-top:var(--sp-4);">
+                                            ✅ Todo el texto y contenido importante va aquí</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tip-list">
+                        <div class="tip-item">🔴 <strong>Sangría (Bleed):</strong> Extiende el fondo 3–5mm más allá del
+                            borde de corte. Si el fondo es una foto, extiéndela. Si es color sólido, extiende el color.
+                            <strong>Nunca dejes el fondo justo en el borde.</strong></div>
+                        <div class="tip-item">🟡 <strong>Línea de Corte:</strong> Es el tamaño real del producto
+                            terminado. La máquina cortará aquí, pero con un margen de error de ±1-2mm.</div>
+                        <div class="tip-item">🟢 <strong>Zona Segura:</strong> Todo el texto, logos y elementos
+                            importantes deben estar <strong>mínimo 5mm</strong> adentro de la línea de corte. Para lonas
+                            grandes: mínimo 10mm.</div>
+                    </div>
+
+                    <div class="callout callout--tip" style="margin-top:var(--sp-5);">
+                        <span class="callout__icon">💡</span>
+                        <div class="callout__body">
+                            <p class="callout__title">Configuración en Illustrator</p>
+                            <p class="callout__text">Al crear el documento: <strong>Archivo → Nuevo → Sangrado:
+                                    3mm</strong> en todos los lados. Esto crea automáticamente las guías de sangría. En
+                                CorelDRAW: <strong>Diseño → Configuración de página → Sangrado: 3mm</strong>.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr class="section-divider">
+
+                <!-- CHECKLIST DE PREPARACIÓN -->
+                <section class="manual-section reveal reveal--slide-up" id="checklist">
+                    <span class="section-eyebrow">✅ Sección 13</span>
+                    <h2 class="section-title">Checklist de Preparación de Archivos</h2>
+                    <p class="section-sub">Antes de enviar un archivo a impresión, corte o producción, verifica cada
+                        punto de esta lista. Un archivo bien preparado evita errores costosos y retrabajos.</p>
+
+                    <div style="display:grid;gap:var(--sp-4);margin:var(--sp-6) 0;">
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">1️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Modo de color correcto</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    ¿Es para impresión digital? → <strong>CMYK</strong>. ¿Es para pantalla/web? →
+                                    <strong>RGB</strong>. Verifica en Archivo → Modo de documento.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">2️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Resolución adecuada</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    Según el tamaño: 72 DPI (gran formato), 150 DPI (medio), 300 DPI (pequeño). No
+                                    inventes resoluciones intermedias.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">3️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Sangría configurada</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    3–5mm de sangría (bleed) en todos los lados. Fondo extendido hasta la línea de
+                                    sangría. Texto dentro de zona segura.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">4️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Textos convertidos a curvas</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    Ctrl+Shift+O en Illustrator, Ctrl+Q en CorelDRAW. Esto evita problemas de fuentes
+                                    faltantes en otro equipo.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">5️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Imágenes incrustadas (no
+                                    vinculadas)</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    En Illustrator: Ventana → Vínculos → selecciona cada imagen → menú → Incrustar. Así
+                                    el archivo no pierde sus imágenes al moverlo.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">6️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Nombre de archivo correcto</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    Formato: <code>NombreCliente_Producto_Medidas_Fecha</code>. Ej:
+                                    <code>PanaderiaMilagro_Rotulo_3x1m_2026-03</code>. Sin caracteres especiales ni
+                                    espacios.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">7️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Revisión ortográfica</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    Lee TODO el texto del diseño una última vez. Un error ortográfico en un rótulo es
+                                    costoso — hay que reimprimir y reinstalar.</p>
+                            </div>
+                        </div>
+                        <div
+                            style="display:flex;align-items:flex-start;gap:var(--sp-4);padding:var(--sp-5);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);">
+                            <span style="font-size:1.5rem;flex-shrink:0;">8️⃣</span>
+                            <div>
+                                <strong style="color:var(--color-heading);">Formato de exportación</strong>
+                                <p style="font-size:var(--fs-xs);color:var(--color-text-muted);margin-top:var(--sp-1);">
+                                    Para impresión: <strong>PDF o TIFF</strong>. Para corte láser: <strong>AI, CDR o
+                                        DXF</strong>. Para web/redes: <strong>PNG o JPG</strong>. Nunca envíes archivos
+                                    .PSD a producción.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="callout callout--success" style="margin-top:var(--sp-5);">
+                        <span class="callout__icon">🎯</span>
+                        <div class="callout__body">
+                            <p class="callout__title">Consejo profesional</p>
+                            <p class="callout__text">Imprime una copia en hoja A4 antes de enviar a producción. Aunque
+                                sea a escala, te permitirá detectar errores de texto, colores extraños o elementos mal
+                                posicionados que no ves en la pantalla. <strong>5 minutos de revisión pueden ahorrar
+                                    horas de retrabajo.</strong></p>
+                        </div>
+                    </div>
+
+                    <div
+                        style="text-align:center;margin-top:var(--sp-10);padding:var(--sp-8);background:var(--color-surface);border-radius:var(--radius-xl);border:1px solid var(--color-border);">
+                        <p style="font-size:2rem;margin-bottom:var(--sp-4);">📚</p>
+                        <h3
+                            style="font-size:var(--fs-xl);font-weight:800;color:var(--color-heading);margin-bottom:var(--sp-3);">
+                            ¡Domina estos fundamentos!</h3>
+                        <p style="color:var(--color-text-muted);max-width:480px;margin:0 auto var(--sp-6);">Los
+                            fundamentos del diseño son la base de todo lo que hacemos en VisualCorp. Vuelve a esta
+                            página cuando tengas dudas.</p>
                         <a href="index.html" class="btn btn--primary">← Volver al inicio</a>
                     </div>
                 </section>
