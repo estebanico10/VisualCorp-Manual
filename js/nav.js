@@ -18,31 +18,30 @@
             <span class="nav__badge">Manual Interno</span>
           </a>
           <ul class="nav__links" id="navLinks">
-            <li><a href="index.html" class="nav__link ${currentPath === 'index.html' ? 'active' : ''}">Inicio</a></li>
+            <li><a href="index.html" class="nav__link ${cleanCurrentPath === 'index.html' ? 'active' : ''}">Inicio</a></li>
             <li class="nav__item-dropdown">
               <span class="nav__link ${isDeptActive ? 'active' : ''}">Departamentos <i class="fa-solid fa-chevron-down" style="font-size:0.8em;margin-left:4px;"></i></span>
               <ul class="nav__dropdown">
-                <li><a href="asesores.html" class="nav__dropdown-link ${currentPath === 'asesores.html' ? 'active' : ''}">🟡 Asesores</a></li>
-                <li><a href="impresores.html" class="nav__dropdown-link ${currentPath === 'impresores.html' ? 'active' : ''}">🖨️ Impresores</a></li>
-                <li><a href="corte-laser.html" class="nav__dropdown-link ${currentPath === 'corte-laser.html' ? 'active' : ''}">⚡ Corte Láser</a></li>
-                <li><a href="disenadores.html" class="nav__dropdown-link ${currentPath === 'disenadores.html' ? 'active' : ''}">🎨 Diseñadores</a></li>
-                <li><a href="taller.html" class="nav__dropdown-link ${currentPath === 'taller.html' ? 'active' : ''}">🔧 Taller</a></li>
+                <li><a href="diseno.html" class="nav__dropdown-link ${cleanCurrentPath === 'diseno.html' ? 'active' : ''}"><i class="fa-solid fa-pen-nib" style="width:20px;"></i> Diseño</a></li>
+                <li><a href="marketing.html" class="nav__dropdown-link ${cleanCurrentPath === 'marketing.html' ? 'active' : ''}"><i class="fa-solid fa-bullseye" style="width:20px;"></i> Marketing</a></li>
+                <li><a href="corte-laser.html" class="nav__dropdown-link ${cleanCurrentPath === 'corte-laser.html' ? 'active' : ''}"><i class="fa-solid fa-fire" style="width:20px;"></i> Corte Láser</a></li>
+                <li><a href="impresion.html" class="nav__dropdown-link ${cleanCurrentPath === 'impresion.html' ? 'active' : ''}"><i class="fa-solid fa-print" style="width:20px;"></i> Impresión</a></li>
+                <li><a href="taller.html" class="nav__dropdown-link ${cleanCurrentPath === 'taller.html' ? 'active' : ''}"><i class="fa-solid fa-hammer" style="width:20px;"></i> Taller / Acabados</a></li>
               </ul>
             </li>
             <li class="nav__item-dropdown">
-              <span class="nav__link" id="miniAppsLink">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em; margin-left:4px;"></i></span>
+              <span class="nav__link ${isAppActive ? 'active' : ''}" id="miniAppsLink">Mini Apps <i class="fa-solid fa-chevron-down" style="font-size:0.8em; margin-left:4px;"></i></span>
               <ul class="nav__dropdown">
-                <li><a href="app-checklist.html" class="nav__dropdown-link"><i class="fa-solid fa-check-double" style="width:20px;"></i> Checklist V2</a></li>
-                <li><a href="app-calculadora.html" class="nav__dropdown-link"><i class="fa-solid fa-calculator" style="width:20px;"></i> Calculadora M²</a></li>
-                <li><a href="app-quiz.html" class="nav__dropdown-link"><i class="fa-solid fa-gamepad" style="width:20px;"></i> Quiz / Trivia</a></li>
-                <li><a href="app-distancia.html" class="nav__dropdown-link"><i class="fa-solid fa-ruler-combined" style="width:20px;"></i> Distancia Visual</a></li>
-                <li><a href="app-colormatch.html" class="nav__dropdown-link"><i class="fa-solid fa-palette" style="width:20px;"></i> Color Match</a></li>
+                <li><a href="app-checklist.html" class="nav__dropdown-link ${cleanCurrentPath === 'app-checklist.html' ? 'active' : ''}"><i class="fa-solid fa-check-double" style="width:20px;"></i> Checklist V2</a></li>
+                <li><a href="app-calculadora.html" class="nav__dropdown-link ${cleanCurrentPath === 'app-calculadora.html' ? 'active' : ''}"><i class="fa-solid fa-calculator" style="width:20px;"></i> Calculadora M²</a></li>
+                <li><a href="app-quiz.html" class="nav__dropdown-link ${cleanCurrentPath === 'app-quiz.html' ? 'active' : ''}"><i class="fa-solid fa-gamepad" style="width:20px;"></i> Quiz / Trivia</a></li>
+                <li><a href="app-distancia.html" class="nav__dropdown-link ${cleanCurrentPath === 'app-distancia.html' ? 'active' : ''}"><i class="fa-solid fa-ruler-combined" style="width:20px;"></i> Distancia Visual</a></li>
+                <li><a href="app-colormatch.html" class="nav__dropdown-link ${cleanCurrentPath === 'app-colormatch.html' ? 'active' : ''}"><i class="fa-solid fa-palette" style="width:20px;"></i> Color Match</a></li>
               </ul>
             </li>
-            <li><a href="fundamentos.html" class="nav__link ${currentPath === 'fundamentos.html' ? 'active' : ''}">Fundamentos</a></li>
-            <li><a href="marketing.html" class="nav__link ${currentPath === 'marketing.html' ? 'active' : ''}">Marketing</a></li>
-            <li><a href="induccion.html" class="nav__link ${currentPath === 'induccion.html' ? 'active' : ''}">Inducción</a></li>
-            <li><a href="seguridad.html" class="nav__link ${currentPath === 'seguridad.html' ? 'active' : ''}">Seguridad</a></li>
+            <li><a href="fundamentos.html" class="nav__link ${cleanCurrentPath === 'fundamentos.html' ? 'active' : ''}">Fundamentos</a></li>
+            <li><a href="induccion.html" class="nav__link ${cleanCurrentPath === 'induccion.html' ? 'active' : ''}">Inducción</a></li>
+            <li><a href="seguridad.html" class="nav__link ${cleanCurrentPath === 'seguridad.html' ? 'active' : ''}">Seguridad</a></li>
             <li style="display:flex;align-items:center;">
               <button class="nav__theme-btn" title="Cambiar Tema">🌙</button>
             </li>
