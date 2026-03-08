@@ -600,14 +600,14 @@ function initPageContent() {
     initToc();
     initProgressBar();
     if (typeof initQuizzes !== 'undefined') initQuizzes(); // Legacy quizzes
-
-    // Initialize New MiniApps (Fase 5) Si existen en el DOM
+    // Reinicializar miniapps (Si usan apps.js global)
     if (typeof window.VisualApps !== 'undefined') {
-        window.VisualApps.initCalculadora();
-        window.VisualApps.initDistancia();
-        window.VisualApps.initQuiz();
-        window.VisualApps.initChecklist();
-        window.VisualApps.initColorMatch();
+        if (document.getElementById('baseInput')) window.VisualApps.initCalculadora();
+        if (document.getElementById('distanceSlider')) window.VisualApps.initDistancia();
+        if (document.getElementById('quizContainer')) window.VisualApps.initQuiz();
+        if (document.getElementById('checkListContainer')) window.VisualApps.initChecklist();
+        if (document.getElementById('colorMatchArea')) window.VisualApps.initColorMatch();
+        if (document.getElementById('pantoneGrid')) window.VisualApps.initPantone();
     }
 
     // Phase 3 & 4 Features

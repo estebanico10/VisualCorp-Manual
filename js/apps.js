@@ -643,6 +643,133 @@ const VisualApps = {
 
         // Start automatically on module load
         initGame();
+    },
+
+    // --- APP PANTONE CATALOG ---
+    initPantone: function () {
+        const pantoneGrid = document.getElementById('pantoneGrid');
+        const searchInput = document.getElementById('pantoneSearch');
+        const countDisplay = document.getElementById('searchResultCount');
+
+        // Verificamos si estamos en la página del catálogo de pinguinos (sic)
+        if (!pantoneGrid || !searchInput) return;
+
+        // Comprobar que la base de datos se haya cargado
+        if (typeof pantoneCatalog === 'undefined') {
+            pantoneGrid.innerHTML = '<p style="color:var(--color-danger);grid-column:1/-1;text-align:center;">Error: No se pudo cargar pantone-data.js</p>';
+            return;
+        }
+
+        const rgbToCmyk = (r, g, b) => {
+            let c = 1 - (r / 255);
+            let m = 1 - (g / 255);
+            let y = 1 - (b / 255);
+            let k = Math.min(c, m, y);
+            if (k === 1) return '0, 0, 0, 100';
+            c = Math.round(((c - k) / (1 - k)) * 100);
+            m = Math.round(((m - k) / (1 - k)) * 100);
+            y = Math.round(((y - k) / (1 - k)) * 100);
+            k = Math.round(k * 100);
+            return `${c}, ${m}, ${y}, ${k}`;
+        };
+
+        const rgbToHsb = (r, g, b) => {
+            r /= 255; g /= 255; b /= 255;
+            let v = Math.max(r, g, b), n = v - Math.min(r, g, b);
+            let h = n === 0 ? 0 : n && v === r ? (g - b) / n : v === g ? 2 + (b - r) / n : 4 + (r - g) / n;
+            return `${Math.round(60 * (h < 0 ? h + 6 : h))}°, ${Math.round(v ? (n / v) * 100 : 0)}%, ${Math.round(v * 100)}%`;
+        };
+
+        const renderCards = (colors) => {
+            pantoneGrid.innerHTML = ''; // Limpiar grilla
+
+            if (colors.length === 0) {
+                pantoneGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:var(--sp-8);color:var(--color-text-muted);"><i class="fa-solid fa-ghost" style="font-size:3rem;margin-bottom:var(--sp-4);opacity:0.3;"></i><p>No se encontraron colores con esa búsqueda.</p></div>';
+                countDisplay.innerText = "0 resultados";
+                return;
+            }
+
+            colors.forEach(color => {
+                const card = document.createElement('div');
+                card.className = 'pantone-card reveal reveal--slide-up';
+                card.style.animationDelay = `${Math.min(pantoneGrid.children.length * 20, 300)}ms`;
+
+                const displayName = color.name || `Pantone ${color.pantone}`;
+
+                // Conversiones al vuelo si no están en base de datos
+                let rgbStr = color.rgb || '0, 0, 0';
+                let rgbArr = rgbStr.split(',').map(Number);
+                if (rgbArr.length !== 3) rgbArr = [0, 0, 0];
+                let cmykStr = color.cmyk || rgbToCmyk(rgbArr[0], rgbArr[1], rgbArr[2]);
+                let hsbStr = color.hsb || rgbToHsb(rgbArr[0], rgbArr[1], rgbArr[2]);
+
+                card.innerHTML = `
+                    <div class="pantone-card__color" style="background-color: ${color.hex}; position:relative;">
+                        <button class="pantone-copy-hex" title="Copiar HEX" data-hex="${color.hex}"><i class="fa-solid fa-copy"></i> Copiar HEX</button>
+                    </div>
+                    <div class="pantone-card__info" style="padding-bottom:var(--sp-3);">
+                        <div class="pantone-card__title" style="margin-bottom:var(--sp-2); border-bottom:1px solid #eee; padding-bottom:var(--sp-2);">${displayName}</div>
+                        
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:4px; font-family:monospace;">
+                            <span style="color:#888; font-weight:700;">HEX</span>
+                            <span style="color:#333; font-weight:800;">${color.hex}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:4px; font-family:monospace;">
+                            <span style="color:#888; font-weight:700;">RGB</span>
+                            <span style="color:#555;">${rgbStr}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; margin-bottom:4px; font-family:monospace;">
+                            <span style="color:#888; font-weight:700;">CMYK</span>
+                            <span style="color:#555;">${cmykStr}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; font-family:monospace;">
+                            <span style="color:#888; font-weight:700;">HSB</span>
+                            <span style="color:#555;">${hsbStr}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Evento para botón de copia exclusivo (evita copiar clickeando todo el bloque si el user prefiere)
+                const copyBtn = card.querySelector('.pantone-copy-hex');
+                copyBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(color.hex).then(() => {
+                        copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copiado';
+                        const toast = document.getElementById('toastNotification');
+                        if (toast) {
+                            toast.innerText = `HEX ${color.hex} copiado al portapapeles`;
+                            toast.classList.add('show');
+                            setTimeout(() => { toast.classList.remove('show'); copyBtn.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar HEX'; }, 2000);
+                        }
+                    });
+                });
+
+                pantoneGrid.appendChild(card);
+            });
+
+            countDisplay.innerText = `${colors.length} color${colors.length !== 1 ? 'es' : ''}`;
+        };
+
+        // Render inicial (Todos los colores)
+        renderCards(pantoneCatalog);
+
+        // Lógica de búsqueda conectada al input text
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase().trim();
+
+            if (term === '') {
+                renderCards(pantoneCatalog);
+                return;
+            }
+
+            const filtered = pantoneCatalog.filter(c => {
+                return (c.pantone && c.pantone.toLowerCase().includes(term)) ||
+                    (c.name && c.name.toLowerCase().includes(term)) ||
+                    (c.hex && c.hex.toLowerCase().includes(term));
+            });
+
+            renderCards(filtered);
+        });
     }
 };
 
