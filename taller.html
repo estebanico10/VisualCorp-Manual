@@ -200,38 +200,10 @@
 
 <body>
     <div id="readProgress"></div>
-    <header class="site-header">
-        <div class="container">
-            <nav class="nav">
-                <a href="index.html" class="nav__logo">
-                    <img class="nav__logo-img"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmSKnD00M-kkEpOeoGxEL9UP7_Zfgf8Ug33Q&s"
-                        alt="VisualCorp">
-                    <span class="nav__logo-text">Visual<span>Corp</span></span>
-                    <span class="nav__badge">Manual Interno</span>
-                </a>
-                <ul class="nav__links" id="navLinks">
-                    <li><a href="index.html" class="nav__link">Inicio</a></li>
-                    <li><a href="asesores.html" class="nav__link">Asesores</a></li>
-                    <li><a href="impresores.html" class="nav__link">Impresores</a></li>
-                    <li><a href="corte-laser.html" class="nav__link">Corte Láser</a></li>
-                    <li><a href="disenadores.html" class="nav__link">Diseñadores</a></li>
-                    <li><a href="taller.html" class="nav__link active" style="color:var(--color-heading);">Taller</a>
-                    </li>
-                    <li><a href="fundamentos.html" class="nav__link">Fundamentos</a></li>
-                    <li><a href="marketing.html" class="nav__link">Marketing</a></li>
-                    <li><a href="induccion.html" class="nav__link">Inducción</a></li>
-                    <li><a href="seguridad.html" class="nav__link">Seguridad</a></li>
-                    <li style="display:flex;align-items:center;">
-                        <button class="nav__theme-btn" title="Cambiar Tema">🌙</button>
-                    </li>
-                </ul>
-                <button class="nav__hamburger" id="burger"><span></span><span></span><span></span></button>
-            </nav>
-        </div>
-    </header>
+    <script src="js/nav.js"></script>
 
-    <section class="hero" style="padding:8rem 0 3rem;">
+  <main id="swup" class="transition-fade">
+<section class="hero" style="padding:8rem 0 3rem;">
         <div class="container" style="position:relative;z-index:2;">
             <nav class="breadcrumb reveal reveal--fade"><a href="index.html">Inicio</a><span>/</span><strong
                     style="color:#22c55e">Taller</strong></nav>
@@ -276,7 +248,7 @@
                 </ul>
             </aside>
 
-            <main id="swup" class="transition-fade manual-content">
+            <div class="manual-content">
 
                 <!-- 1. ROL -->
                 <section class="manual-section reveal reveal--slide-up" id="rol">
@@ -892,9 +864,11 @@
                     </div>
                 </section>
         
-            </main>
+            </div>
         </div>
     </div>
+
+      </main>
 
     <footer class="site-footer">
         <div class="container">

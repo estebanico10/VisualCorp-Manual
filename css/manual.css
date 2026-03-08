@@ -327,8 +327,9 @@ body.light-mode .nav__dropdown {
     white-space: nowrap;
 }
 
-.nav__dropdown-link:hover {
-    background: var(--color-surface-alt);
+.nav__dropdown-link:hover,
+.nav__dropdown-link.active {
+    background: rgba(255, 255, 255, .05);
     color: var(--color-heading);
     transform: translateX(4px);
 }

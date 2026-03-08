@@ -32,10 +32,9 @@ function initNav() {
 
 // ── Active nav link ──────────────────────────────────────────
 function initActiveLink() {
-    const current = window.location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('.nav__link').forEach(a => {
-        if (a.getAttribute('href') === current) a.classList.add('active');
-    });
+    if (typeof window.updateNavActiveLink === 'function') {
+        window.updateNavActiveLink();
+    }
 }
 
 // ── Back-to-top ──────────────────────────────────────────────

@@ -44,42 +44,10 @@
     <div id="readProgress"></div>
 
     <!-- ── NAV ── -->
-    <header class="site-header">
-        <div class="container">
-            <nav class="nav">
-                <a href="index.html" class="nav__logo">
-                    <img class="nav__logo-img"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmSKnD00M-kkEpOeoGxEL9UP7_Zfgf8Ug33Q&s"
-                        alt="VisualCorp Logo">
-                    <span class="nav__logo-text">Visual<span>Corp</span></span>
-                    <span class="nav__badge">Manual Interno</span>
-                </a>
-                <ul class="nav__links" id="navLinks">
-                    <li><a href="index.html" class="nav__link">Inicio</a></li>
-                    <li class="nav__item-dropdown">
-            <span class="nav__link">Departamentos <i class="fa-solid fa-chevron-down" style="font-size:0.8em;margin-left:4px;"></i></span>
-            <ul class="nav__dropdown">
-              <li><a href="asesores.html" class="nav__dropdown-link">🟡 Asesores</a></li>
-              <li><a href="impresores.html" class="nav__dropdown-link">🖨️ Impresores</a></li>
-              <li><a href="corte-laser.html" class="nav__dropdown-link">⚡ Corte Láser</a></li>
-              <li><a href="disenadores.html" class="nav__dropdown-link">🎨 Diseñadores</a></li>
-              <li><a href="taller.html" class="nav__dropdown-link">🔧 Taller</a></li>
-            </ul>
-          </li>
-                    <li><a href="fundamentos.html" class="nav__link">Fundamentos</a></li>
-                    <li><a href="marketing.html" class="nav__link">Marketing</a></li>
-                    <li style="display:flex;align-items:center;">
-                        <button class="nav__theme-btn" title="Cambiar Tema">🌙</button>
-                    </li>
-                </ul>
-                <button class="nav__hamburger" id="burger" aria-label="Menú">
-                    <span></span><span></span><span></span>
-                </button>
-            </nav>
-        </div>
-    </header>
+    <script src="js/nav.js"></script>
 
-    <!-- ── HERO MINI ── -->
+  <main id="swup" class="transition-fade">
+<!-- ── HERO MINI ── -->
     <section class="hero" style="padding:8rem 0 3rem;">
         <div class="container" style="position:relative;z-index:2;">
             <!-- Breadcrumb -->
@@ -128,7 +96,7 @@
             </aside>
 
             <!-- ── CONTENT ── -->
-            <main id="swup" class="transition-fade manual-content">
+            <div class="manual-content">
 
                 <!-- 1. CULTURA -->
                 <section class="manual-section reveal reveal--slide-up" id="cultura">
